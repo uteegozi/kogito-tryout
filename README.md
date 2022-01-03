@@ -2,8 +2,6 @@
 
 **Prerequisites**
 - oc cli installed
-- oc logged into OCP cluster
-- oc project chosen
 - helm cli installed
 
 **Installed Infrastructure**
@@ -19,9 +17,13 @@
 - Kogito Travel and Visa example from image
 
 **To install**
+- oc login
+- oc project <your project>
 - update `./installer.properties`
 - run `./installer.sh`
 
 **To uninstall**
+- oc login
+- oc project <your project>
 - update `./installer.properties`
 - run `./uninstaller.sh`
