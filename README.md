@@ -18,12 +18,12 @@
 
 **To install**
 - oc login
-- oc project <your project>
+- oc project "your project"
 - update `./installer.properties`
 - run `./installer.sh`
 
 **To uninstall**
 - oc login
-- oc project <your project>
+- oc project "your project"
 - update `./installer.properties`
 - run `./uninstaller.sh`
