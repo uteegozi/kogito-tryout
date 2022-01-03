@@ -1,0 +1,23 @@
+spec:
+  template:
+    spec:
+      volumes:
+        - name: app-pvc
+          persistentVolumeClaim:
+            claimName: kogito-app-pvc
+      containers:
+        - name: kogito-management-console
+          volumeMounts:
+            - name: app-pvc
+              mountPath: /home/kogito/data/svg
+          env:
+            - name: KOGITO_DATAINDEX_HTTP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.dataindex.httpurl
+            - name: KOGITO_MANAGEMENT_CONSOLE_PROPS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.managementconsole.props

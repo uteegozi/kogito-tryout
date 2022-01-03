@@ -1,0 +1,38 @@
+spec:
+  template:
+    spec:
+      volumes:
+        - name: app-pvc
+          persistentVolumeClaim:
+            claimName: kogito-app-pvc
+      containers:
+        - name: kogito-data-index-infinispan
+          volumeMounts:
+            - name: app-pvc
+              mountPath: /home/kogito/data/protobufs
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kafka.bootstrap.servers
+            - name: KOGITO_DATA_INDEX_PROPS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.dataindex.props
+            - name: QUARKUS_INFINISPAN_CLIENT_AUTH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: infinispan-generated-secret
+                  key: password
+            - name: QUARKUS_INFINISPAN_CLIENT_AUTH_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: quarkus.infinispan.client.authusername
+            - name: QUARKUS_INFINISPAN_CLIENT_SERVER_LIST
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: quarkus.infinispan.client.serverlist

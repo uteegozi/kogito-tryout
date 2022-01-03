@@ -1,0 +1,75 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "kogito-travel-agency-travels-jvm",
+            "env": [
+              {
+                "name": "KAFKA_BOOTSTRAP_SERVERS",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-configs",
+                    "key": "kafka.bootstrap.servers"
+                  }
+                }
+              },
+              {
+                "name": "KOGITO_DATAINDEX_HTTP_URL",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-configs",
+                    "key": "kogito.dataindex.httpurl"
+                  }
+                }
+              },
+              {
+                "name": "KOGITO_DATAINDEX_WS_URL",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-configs",
+                    "key": "kogito.dataindex.wsurl"
+                  }
+                }
+              },
+              {
+                "name": "QUARKUS_INFINISPAN_CLIENT_SERVER_LIST",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-configs",
+                    "key": "quarkus.infinispan.client.serverlist"
+                  }
+                }
+              },
+              {
+                "name": "QUARKUS_INFINISPAN_CLIENT_AUTH_USERNAME",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-configs",
+                    "key": "quarkus.infinispan.client.authusername"
+                  }
+                }
+              },
+              {
+                "name": "QUARKUS_INFINISPAN_CLIENT_AUTH_PASSWORD",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "infinispan-generated-secret",
+                    "key": "password"
+                  }
+                }
+              }
+            ],
+            "ports": [
+              {
+                "containerPort": 8080,
+                "protocol": "TCP"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
