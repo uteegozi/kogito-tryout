@@ -244,13 +244,14 @@ Update Env parameters in the deployments yaml
 Update ports (why are those autocreated? 8778 and 9779) => update 8778 port to 8080 for travels and 8090 for visas  
 ```
 podman login quay.io
-podman tag <IMAGE_ID> quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0
+imageId=$(podman images | grep quarkus/kogito-travel-agency-travels-jvm | awk '{printf $3}')
+podman tag "${imageId}" quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0
 podman push quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0
 oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0 
 oc expose service/kogito-travel-agency-travels-jvm
 
-
-podman tag <IMAGE_ID> quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0
+imageId=$(podman images | grep quarkus/kogito-travel-agency-visas-jvm | awk '{printf $3}')
+podman tag "${imageId}" quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0
 podman push quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0
 oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0 
 oc expose service/kogito-travel-agency-visas-jvm
