@@ -37,8 +37,8 @@ Properties are listed [below](#application-properties) per component.
 - build the application: `mvn package`  
 - build the image: `docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogito-travel-agency-travels-jvm .`  
 - log into a image repository: `podman login quay.io`  
-- tag the local image for your chosen remote repository: `imageId=$(podman images | grep quarkus/kogito-travel-gency-travels-jvm | awk '{printf $3}')
-  podman tag "${imageId}" quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0`
+- tag the local image for your chosen remote repository:
+  `podman tag $(podman images | grep quarkus/kogito-travel-gency-travels-jvm | awk '{printf $3}') quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0`
 - push the tagged image: `podman push quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0`
 
 ### Prepare application image installation
@@ -68,7 +68,7 @@ quarkus.infinispan-client.auth-username=${QUARKUS_INFINISPAN_CLIENT_AUTH_USERNAM
 quarkus.infinispan-client.auth-password=${QUARKUS_INFINISPAN_CLIENT_AUTH_PASSWORD:"infinipwd"}
 quarkus.infinispan-client.sasl-mechanism=DIGEST-MD5
 ```
-### Kafka 
+#### Kafka 
 ```
 kafka.bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS:"localhost:9092"}
 
@@ -94,7 +94,7 @@ mp.messaging.outgoing.kogito-variables-events.connector=smallrye-kafka
 mp.messaging.outgoing.kogito-variables-events.topic=kogito-variables-events
 mp.messaging.outgoing.kogito-variables-events.value.serializer=org.apache.kafka.common.serialization.StringSerializer
 ```
-### Kogito Data-Index
+#### Kogito Data-Index
 ```
 kogito.dataindex.http.url=${KOGITO_DATAINDEX_HTTP_URL:"http://localhost:8180"}
 kogito.dataindex.ws.url=${KOGITO_DATAINDEX_WS_URL:"ws://localhost:8180"}
