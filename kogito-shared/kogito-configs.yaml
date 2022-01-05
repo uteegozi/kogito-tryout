@@ -9,4 +9,4 @@ data:
     kogito.dataindex.props: '-Dkogito.protobuf.folder=/home/kogito/data/protobufs/'
     kogito.dataindex.httpurl: 'http://kogito-data-index-infinispan-${project_name}.${apps_cluster_host}'
     kogito.dataindex.wsurl: 'ws://kogito-data-index-infinispan-${project_name}.${apps_cluster_host}'
-    kogito.managementconsole.props: '-Dkogito.svg.folder.path=/home/kogito/data/svg'
+    kogito.managementconsole.props: '-Dkogito.svg.folder.path=/home/kogito/data/svg -Dquarkus.oidc.auth-server-url=none -Dquarkus.oidc.tenant-enabled=false'

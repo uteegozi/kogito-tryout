@@ -4,7 +4,7 @@ spec:
       volumes:
         - name: app-pvc
           persistentVolumeClaim:
-            claimName: kogito-app-pvc
+            claimName: kogito-app-pvc2
       containers:
         - name: kogito-management-console
           volumeMounts:

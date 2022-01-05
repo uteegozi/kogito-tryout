@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ../installer.properties
+
 action=$1
 
 if [ "${action}" == "uninstall" ]; then

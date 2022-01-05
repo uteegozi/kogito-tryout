@@ -6,7 +6,8 @@ what=$2
 if [ "${action}" == "uninstall" ]; then
   echo "*** uninstalling kogito-shared"
   if [ "${what}" == "pvc" ]; then
-    oc delete -f pvc.yaml
+    oc delete -f pvc1.yaml
+    oc delete -f pvc2.yaml
   elif [ "${what}" == "config" ]; then
     oc delete -f kogito-configs.yaml
   fi
@@ -14,7 +15,8 @@ if [ "${action}" == "uninstall" ]; then
 elif [ "${action}" == "install" ]; then
   echo "*** installing kogito-share"
   if [ "${what}" == "pvc" ]; then
-    oc create -f pvc.yaml
+    oc create -f pvc1.yaml
+    oc create -f pvc2.yaml
   elif [ "${what}" == "config" ]; then
     current_project_name=$(oc project -q)
     # get apps cluster server hostname - get current contexts api cluster name
