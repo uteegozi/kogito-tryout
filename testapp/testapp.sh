@@ -17,13 +17,13 @@ function waitForPod(){
 
 if [ ${action} == 'install' ]; then
 #  podman pull quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0
-  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:2.0.14
+  oc new-app quay.io/dmartino/kogito-travel-agency-travels-jvm:1.14.0.Final
   oc patch deployment kogito-travel-agency-travels-jvm --patch "$(cat deployment_patch_travels.json)"
   oc patch service kogito-travel-agency-travels-jvm --patch "$(cat service_patch_travels.json)"
   oc expose service/kogito-travel-agency-travels-jvm
 
 #  podman pull quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0
-  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:2.0.14
+  oc new-app quay.io/dmartino/kogito-travel-agency-visas-jvm:1.14.0.Final
   oc patch deployment kogito-travel-agency-visas-jvm --patch "$(cat deployment_patch_visas.json)"
   oc patch service kogito-travel-agency-visas-jvm --patch "$(cat service_patch_visas.json)"
   oc expose service/kogito-travel-agency-visas-jvm
