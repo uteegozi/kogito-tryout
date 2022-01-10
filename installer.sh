@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# install firstly any Kogito unrelated infrastructure like infinispan, kafka
+# install firstly any Kogito unrelated infrastructure like infinispan, kafka, etc.
 # install secondly any Kogito services like data-index, management console, etc.
 # install thirdly the application to try out
 
 source installer.properties
+source common-functions.sh
 
 action=install
 
@@ -21,10 +22,14 @@ function componentAction(){
 }
 
 if [ "${INSTALL_ALL}" == "Y" ]; then
-  INFINISPAN=Y
+  INFINISPAN=N
   KAFKA=Y
+  KEYCLOAK=Y
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
+fi
+if [ "${KOGITO_MANAGEMENT_CONSOLE_VERSION}" == "1.8.0" ]; then
+  KEYCLOAK=N
 fi
 
 if [ "${action}" == "install" ]; then
@@ -37,6 +42,7 @@ componentAction "Y" "kogito-shared" "pvc"
 
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
+componentAction "${KEYCLOAK}" "keycloak"
 
 dbType=""
 if [ "${INFINISPAN}" == "Y" ]; then

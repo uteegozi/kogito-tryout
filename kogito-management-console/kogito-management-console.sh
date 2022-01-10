@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ../installer.properties
+source ../common-functions.sh
 
 action=$1
 
@@ -11,7 +12,13 @@ if [ "${action}" == "uninstall" ]; then
 elif [ "${action}" == "install" ]; then
   echo "*** installing management console"
   oc new-app quay.io/kiegroup/kogito-management-console:"${KOGITO_MANAGEMENT_CONSOLE_VERSION}"
-  oc patch deployment kogito-management-console --patch "$(cat deployment-patch.yaml)"
+  waitForPod kogito-management-console
+  patchVersion=""
+  if [ "${KOGITO_MANAGEMENT_CONSOLE_VERSION}" == "1.8.0" ]; then
+    patchVersion="1.8.0"
+  fi
+  oc patch deployment kogito-management-console --patch "$(cat deployment-patch-${patchVersion}.yaml)"
+  waitForPod kogito-management-console
   oc expose service/kogito-management-console
 
 else
