@@ -15,11 +15,28 @@ This deployment includes both the required infrastructure and the Kogito applica
 ### Installable Infrastructure
 - Infinispan via helm chart
 - Kafka via helm chart
+- jboss/keycloak image (in progress)
 
 ### Installable Kogito services
-- Installed version: 1.14.0
+- Installed version: 1.14.0  
+**Note**: because of Developer Sandbox resource limits the mandatory keycloak authentication for the Management Console in version 1.14.0 cannot be installed here 
+=> must use Management Console version 1.8.0 for Developer Sandbox installation (set installer property: KOGITO_MANAGEMENT_CONSOLE_VERSION)  
+If installing on an OCP lab without these limitations, also choose keycloak as installable component and set KOGITO_MANAGEMENT_CONSOLE_VERSION to KOGTIO_VERSION
 - Data Index for Infinispan from image
 - Management console from image
+
+## Constraints
+- Developer Sandbox does not allow to install additional operators - (https://www.youtube.com/watch?v=oDqw8aBGDD8 from 18.02.2021 - time: 9:09)
+  => cannot use Kogito Operator install
+- Developer Sandbox imposes resource limits on the user created cluster: 
+  - PVCs: 5
+  - Services: 10
+  - Storage: 15Gi
+  - RAM: 7Gi
+  - Namespaces: 2
+
+## Architecture 
+![](./separate.png)
 
 ## Installation
 - [prepare the Kogito application](#prepare-kogito-application)
@@ -46,7 +63,7 @@ the [Travels](https://github.com/kiegroup/kogito-examples/blob/stable/kogito-tra
 - build the image: `docker build -f src/main/docker/Dockerfile.jvm -t quarkus/kogito-travel-agency-travels-jvm .`  
 - log into a image repository: `docker login quay.io`
 - tag the local image for your chosen remote repository:
-  `docker tag $(podman images | grep quarkus/kogito-travel-gency-travels-jvm | awk '{printf $3}') quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0` 
+  `docker tag $(docker images | grep quarkus/kogito-travel-gency-travels-jvm | awk '{printf $3}') quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0` 
 - push the tagged image: `docker push quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0`
 
 The same steps must be repeated for the [Visas](https://github.com/kiegroup/kogito-examples/blob/stable/kogito-travel-agency/extended/visas)
@@ -108,3 +125,7 @@ kafka-console-consumer.sh  --bootstrap-server kafka.dmartino-test.svc.cluster.lo
 kafka-console-consumer.sh  --bootstrap-server kafka.dmartino-test.svc.cluster.local:9092 --topic visaapplications --from-beginning
 kafka-console-consumer.sh  --bootstrap-server kafka.dmartino-test.svc.cluster.local:9092 --topic visasresponses --from-beginning
 ```
+
+## Suggestions
+
+![](./compact.png)
