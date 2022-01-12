@@ -22,7 +22,7 @@ function componentAction(){
 }
 
 if [ "${INSTALL_ALL}" == "Y" ]; then
-  INFINISPAN=N
+  INFINISPAN=Y
   KAFKA=Y
   KEYCLOAK=Y
   KOGITO_DATA_INDEX=Y

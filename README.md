@@ -10,7 +10,7 @@ This deployment includes both the required infrastructure and the Kogito applica
 ## Prerequisites
 - [Developer sandbox ](https://developers.redhat.com/developer-sandbox/get-started)  or other Openshift cluster
 - oc cli installed
-- helm cli installed
+- helm 3 cli installed
 
 ### Installable Infrastructure
 - Infinispan via helm chart
@@ -117,11 +117,14 @@ kafka.bootstrap.servers=localhost:9092
 kogito.dataindex.http.url=http://localhost:8180
 kogito.dataindex.ws.url=ws://localhost:8180
 ```
+
 ## Validating Data index
 Browse to Data index route and copy below query into GraphiQL query area 
 ```
 {ProcessInstances {id}}
 ```
+## Validating Infinispan
+Browse to Infinispan route, use user developer to login; take the password from the infinispan opaque secret
 
 ## Validating Kafka topics
 You can optionally run the following commands to deploy a new `kafka-client` Pod to verify the events sent to the
