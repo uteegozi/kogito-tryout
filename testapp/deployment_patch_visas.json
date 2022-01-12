@@ -7,6 +7,15 @@
             "name": "kogito-travel-agency-visas-jvm",
             "env": [
               {
+                "name": "KOGITO_SERVICE_URL",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "kogito-app-configs",
+                    "key": "kogito.service.url.visas"
+                  }
+                }
+              },
+              {
                 "name": "KAFKA_BOOTSTRAP_SERVERS",
                 "valueFrom": {
                   "configMapKeyRef": {
@@ -41,6 +50,10 @@
                     "key": "quarkus.infinispan.client.serverlist"
                   }
                 }
+              },
+              {
+                "name": "QUARKUS_INFINISPAN_CLIENT_USE_AUTH",
+                "value": "true"
               },
               {
                 "name": "QUARKUS_INFINISPAN_CLIENT_AUTH_USERNAME",

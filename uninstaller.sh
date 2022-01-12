@@ -37,8 +37,7 @@ componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
 
-componentAction "Y" "kogito-shared" "config"
-componentAction "Y" "kogito-shared" "pvc"
+componentAction "Y" "kogito-shared"
 
 
 

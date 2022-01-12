@@ -5,32 +5,25 @@ source ../common-functions.sh
 action=$1
 
 if [ ${action} == 'install' ]; then
-#  podman pull quay.io/uegozi/kogito-travel-agency-travels-jvm:1.0.0
-  oc new-app quay.io/dmartino/kogito-travel-agency-travels-jvm:1.14.0.Final
+
+  sed 's@${project_name}@'$(getProjectName)'@;s@${apps_cluster_host}@'$(getClusterAppsHostname)'@' \
+          ./kogito-app-configs.yaml > ./kogito-app-configs-updated.yaml
+  oc create -f kogito-app-configs-updated.yaml
+  rm kogito-app-configs-updated.yaml
+
+  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:1.14.0.Final
   oc patch deployment kogito-travel-agency-travels-jvm --patch "$(cat deployment_patch_travels.json)"
   oc patch service kogito-travel-agency-travels-jvm --patch "$(cat service_patch_travels.json)"
   oc expose service/kogito-travel-agency-travels-jvm
 
-#  podman pull quay.io/uegozi/kogito-travel-agency-visas-jvm:1.0.0
-  oc new-app quay.io/dmartino/kogito-travel-agency-visas-jvm:1.14.0.Final
+  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:1.14.0.Final
   oc patch deployment kogito-travel-agency-visas-jvm --patch "$(cat deployment_patch_visas.json)"
   oc patch service kogito-travel-agency-visas-jvm --patch "$(cat service_patch_visas.json)"
   oc expose service/kogito-travel-agency-visas-jvm
 
-  # if we get a: WARNING: cannot use rsync: rsync not available in container, then the copy should still continue using tar
-  if [ "$(ls -A ./protobuf)" ]; then
-    waitForPod kogito-data-index
-    kdi=$(oc get pods | grep kogito-data-index |  awk '{print $1}')
-    oc rsync ./protobuf/ "${kdi}":/home/kogito/data/protobufs --no-perms
-  fi
-  if [ "$(ls -A ./svg)" ]; then
-    waitForPod kogito-management-console
-    kmc=$(oc get pods | grep kogito-management-console |  awk '{print $1}')
-    oc rsync ./svg/ "${kmc}":/home/kogito/data/svg --no-perms
-  fi
-
 elif [ ${action} == 'uninstall' ]; then
   oc delete all --selector app=kogito-travel-agency-travels-jvm
   oc delete all --selector app=kogito-travel-agency-visas-jvm
+  oc delete configmap/kogito-app-configs
 fi
 

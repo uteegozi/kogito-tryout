@@ -37,8 +37,7 @@ if [ "${action}" == "install" ]; then
   echo ""
 fi
 
-componentAction "Y" "kogito-shared" "config"
-componentAction "Y" "kogito-shared" "pvc"
+componentAction "Y" "kogito-shared"
 
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"

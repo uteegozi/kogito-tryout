@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kogito-app-configs
+data:
+  kogito.service.url.travels: 'http://kogito-travel-agency-travels-jvm-${project_name}.${apps_cluster_host}'
+  kogito.service.url.visas: 'http://kogito-travel-agency-visas-jvm-${project_name}.${apps_cluster_host}'
