@@ -20,11 +20,13 @@ This deployment includes both the required infrastructure and the Kogito applica
 ### Installable Kogito services
 - Installed version: 1.14.0  
 **Note**: because of Developer Sandbox resource limits the mandatory keycloak authentication for the Management Console in version 1.14.0 cannot be installed here 
-=> must use Management Console version 1.8.0 for Developer Sandbox installation (set installer property: KOGITO_MANAGEMENT_CONSOLE_VERSION)  
+=> must use Management Console version 1.8.0 for Developer Sandbox installation (set installer property: KOGITO_MANAGEMENT_CONSOLE_VERSION)
+The same applies for the Task Console service.  
 If installing on an OCP lab without these limitations, also choose keycloak as installable component and set KOGITO_MANAGEMENT_CONSOLE_VERSION to KOGTIO_VERSION
 - Data Index for Infinispan from image
 - Management console from image
 - [Jobs service](https://docs.jboss.org/kogito/release/latest/html_single/#con-jobs-service_kogito-configuring) from image
+- [Task console](https://docs.jboss.org/kogito/release/latest/html_single/#con-task-console_kogito-developing-process-services) from image
 
 ## Constraints
 - Developer Sandbox does not allow to install additional operators - (https://www.youtube.com/watch?v=oDqw8aBGDD8 from 18.02.2021 - time: 9:09)

@@ -1,0 +1,16 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: kogito-task-console
+          env:
+            - name: KOGITO_DATAINDEX_HTTP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.dataindex.httpurl
+            - name: KOGITO_TASK_CONSOLE_PROPS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.taskconsole.props

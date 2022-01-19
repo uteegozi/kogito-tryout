@@ -14,7 +14,6 @@ elif [ "${action}" == "install" ]; then
   echo "*** installing jobs service"
   oc new-app quay.io/kiegroup/kogito-jobs-service-${type}:${KOGITO_VERSION}
   waitForPod kogito-jobs-service
-  patchVersion=""
   oc patch deployment kogito-jobs-service-${type} --patch "$(cat deployment-patch.yaml)"
   waitForPod kogito-jobs-service
   oc expose service/kogito-jobs-service-${type}

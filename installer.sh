@@ -27,6 +27,7 @@ if [ "${INSTALL_ALL}" == "Y" ]; then
   KEYCLOAK=Y
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
+  KOGITO_TASK_CONSOLE=Y
   KOGITO_JOBS_SERVICE=Y
 fi
 if [ "${KOGITO_MANAGEMENT_CONSOLE_VERSION}" == "1.8.0" ]; then
@@ -50,6 +51,7 @@ if [ "${INFINISPAN}" == "Y" ]; then
 fi
 componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "${dbType}"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
+componentAction "${KOGITO_TASK_CONSOLE}" "kogito-task-console"
 componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "${dbType}"
 
 cd testapp
