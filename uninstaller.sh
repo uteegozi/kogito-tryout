@@ -21,6 +21,7 @@ if [ "${INSTALL_ALL}" == "Y" ]; then
   KAFKA=Y
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
+  KOGITO_JOBS_SERVICE=Y
 fi
 
 cd testapp
@@ -33,6 +34,7 @@ if [ "${INFINISPAN}" == "Y" ]; then
 fi
 componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "${dbType}"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
+componentAction "${KOGITO_DATA_INDEX}" "kogito-jobs-service" "${dbType}"
 
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"

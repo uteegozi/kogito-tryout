@@ -11,7 +11,7 @@ if [ "${action}" == "uninstall" ]; then
 elif [ "${action}" == "install" ]; then
   echo "*** installing kogito-share"
 
-  sed 's@${project_name}@'$(getProjectName)'@;s@${apps_cluster_host}@'$(getClusterAppsHostname)'@' \
+  sed 's@${project_name}@'$(getProjectName)'@g;s@${apps_cluster_host}@'$(getClusterAppsHostname)'@' \
         ./kogito-configs.yaml > ./kogito-configs-updated.yaml
   oc create -f kogito-configs-updated.yaml
   rm kogito-configs-updated.yaml
