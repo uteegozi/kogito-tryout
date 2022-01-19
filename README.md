@@ -24,6 +24,7 @@ This deployment includes both the required infrastructure and the Kogito applica
 If installing on an OCP lab without these limitations, also choose keycloak as installable component and set KOGITO_MANAGEMENT_CONSOLE_VERSION to KOGTIO_VERSION
 - Data Index for Infinispan from image
 - Management console from image
+- [Jobs service](https://docs.jboss.org/kogito/release/latest/html_single/#con-jobs-service_kogito-configuring) from image
 
 ## Constraints
 - Developer Sandbox does not allow to install additional operators - (https://www.youtube.com/watch?v=oDqw8aBGDD8 from 18.02.2021 - time: 9:09)
