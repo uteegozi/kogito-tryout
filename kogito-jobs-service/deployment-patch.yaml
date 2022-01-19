@@ -1,10 +1,6 @@
 spec:
   template:
     spec:
-      volumes:
-        - name: app-pvc
-          configMap:
-            name: kogito-management-config
       containers:
         - name: kogito-jobs-service-infinispan
           env:
