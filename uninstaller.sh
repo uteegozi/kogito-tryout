@@ -36,6 +36,7 @@ componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "${dbType}"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-task-console"
 componentAction "${KOGITO_DATA_INDEX}" "kogito-jobs-service" "${dbType}"
+componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "${dbType}"
 
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
