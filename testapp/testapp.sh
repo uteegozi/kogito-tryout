@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source ../installer.properties
 source ../common-functions.sh
 
 action=$1
@@ -11,12 +12,12 @@ if [ ${action} == 'install' ]; then
   oc create -f kogito-app-configs-updated.yaml
   rm kogito-app-configs-updated.yaml
 
-  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:1.14.0.Final
+  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:"${KOGITO_VERSION}.Final"
   oc patch deployment kogito-travel-agency-travels-jvm --patch "$(cat deployment_patch_travels.json)"
   oc patch service kogito-travel-agency-travels-jvm --patch "$(cat service_patch_travels.json)"
   oc expose service/kogito-travel-agency-travels-jvm
 
-  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:1.14.0.Final
+  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:"${KOGITO_VERSION}.Final"
   oc patch deployment kogito-travel-agency-visas-jvm --patch "$(cat deployment_patch_visas.json)"
   oc patch service kogito-travel-agency-visas-jvm --patch "$(cat service_patch_visas.json)"
   oc expose service/kogito-travel-agency-visas-jvm

@@ -5,7 +5,7 @@ This deployment includes both the required infrastructure and the Kogito applica
 * The reference application is taken from [Kogito Travel Agency (extended)](https://github.com/kiegroup/kogito-examples/blob/stable/kogito-travel-agency/extended) 
 * Few customizations might be needed to integrate with the deployed infrastructure, as detailed [here](#application-properties)
 * The deployment is based on pre-built container images of the Kogito applications, according to the [instructions](#prepare-application-image) 
-* The reference version of the Kogito platform is `1.14.0.Final`
+* The reference version of the Kogito platform is `1.16.0.Final`
 
 ## Prerequisites
 - [Developer sandbox ](https://developers.redhat.com/developer-sandbox/get-started)  or other Openshift cluster
@@ -18,13 +18,13 @@ This deployment includes both the required infrastructure and the Kogito applica
 - jboss/keycloak image (in progress)
 
 ### Installable Kogito services
-- Installed version: 1.14.0  
+- Installed version: 1.16.0  
 **Note**: because of Developer Sandbox resource limits the mandatory keycloak authentication for the Management Console in version 1.14.0 cannot be installed here 
 => must use Management Console version 1.8.0 for Developer Sandbox installation (set installer property: KOGITO_MANAGEMENT_CONSOLE_VERSION)
 The same applies for the Task Console service.  
 If installing on an OCP lab without these limitations, also choose keycloak as installable component and set KOGITO_MANAGEMENT_CONSOLE_VERSION to KOGTIO_VERSION
-- Data Index for Infinispan from image
-- Management console from image
+- [Data Index](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-data-index-service_kogito-configuring) from image
+- [Management console](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-management-console_kogito-developing-process-services) from image 
 - [Jobs service](https://docs.jboss.org/kogito/release/latest/html_single/#con-jobs-service_kogito-configuring) from image
 - [Task console](https://docs.jboss.org/kogito/release/latest/html_single/#con-task-console_kogito-developing-process-services) from image
 
