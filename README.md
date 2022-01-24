@@ -1,3 +1,11 @@
+# NOTE
+The branch is implementing postgresql as persistence for Travel Agency application and persistence depending Kogito services.  
+Installs a postgresql server, kogito postgres service images and an adapted Travel Agency application.  
+Travel Agency GUI is using domain graphql queries which are not implemented for postgresql persistence.
+
+If need postgresql for the try-out for a different application, can merge back the relevant implementations.
+Until then use the main branch.
+
 # Kogito Try-out installation
 The goal of this procedure is to simplify the deployment of an existing Kogito application on the Openshift platform.
 This deployment includes both the required infrastructure and the Kogito application.
@@ -13,6 +21,7 @@ This deployment includes both the required infrastructure and the Kogito applica
 - helm 3 cli installed
 
 ### Installable Infrastructure
+- postgres image
 - Infinispan via helm chart
 - Kafka via helm chart
 - jboss/keycloak image (in progress)
@@ -91,9 +100,24 @@ when running the `./uninstaller.sh`.
 
 To uninstall the application separately, run `./testapp/testapp.sh uninstall`
 
-### Application Properties
+### Application Properties and dependencies
 Application properties defined in the Kogito examples define usually values for running in a local environment
 They can be overridden by environment variables - see [Quarkus Config Reference](https://quarkus.io/guides/config-reference#environment-variables)
+
+#### Postgres
+reactive:
+
+jdbc:
+```
+kogito.persistence.type=jdbc
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.username=
+quarkus.datasource.password=
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/jdbc_test
+
+.pom dependencies
+
+```
 
 #### Infinispan
 without authentication:
@@ -126,6 +150,18 @@ Browse to Data index route and copy below query into GraphiQL query area
 ```
 {ProcessInstances {id}}
 ```
+## Validating Postgres
+Open Terminal in OCP, type psql
+```
+# list all databases - expected database "kogito" with user "kogito-user"
+\l
+# list all tables in "kogito" database -> connect to db, list tables - expected tables (at least) process_instances
+\c kogito
+\dt
+# show data -> run one travel request through the travle GUI -> expected one entry connected to Travels 
+select * from process_instances
+```
+
 ## Validating Infinispan
 Browse to Infinispan route, use user developer to login; take the password from the infinispan opaque secret
 

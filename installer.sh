@@ -22,9 +22,11 @@ function componentAction(){
 }
 
 if [ "${INSTALL_ALL}" == "Y" ]; then
-  INFINISPAN=Y
+  # dbs - postgres db is the default
+  POSTGRESQL=Y
+  INFINISPAN=N
   KAFKA=Y
-  KEYCLOAK=Y
+  KEYCLOAK=N
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
   KOGITO_TASK_CONSOLE=Y
@@ -41,27 +43,16 @@ fi
 
 componentAction "Y" "kogito-shared"
 
+componentAction "${POSTGRESQL}" "postgresql"
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
 componentAction "${KEYCLOAK}" "keycloak"
 
-dbType=""
-if [ "${INFINISPAN}" == "Y" ]; then
-  dbType="infinispan"
-fi
-componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "${dbType}"
+componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "$(getDb)"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
 componentAction "${KOGITO_TASK_CONSOLE}" "kogito-task-console"
-componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "${dbType}"
+componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "$(getDb)"
 
 cd testapp
     ./testapp.sh "${action}"
 cd ..
-
-
-#to check
-# PVC stuck in terminating
-#oc patch pvc data-kafka-zookeeper-0 -p '{"metadata":{"finalizers": []}}' --type=merge
-# pod stuck in terminating
-#oc delete --grace-period=0 --force pod <POD>
-# test app resources are copied to both path - also need to copy them after pods are created and then restart them???

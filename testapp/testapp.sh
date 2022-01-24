@@ -12,13 +12,13 @@ if [ ${action} == 'install' ]; then
   oc create -f kogito-app-configs-updated.yaml
   rm kogito-app-configs-updated.yaml
 
-  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm:"${KOGITO_VERSION}.Final"
-  oc patch deployment kogito-travel-agency-travels-jvm --patch "$(cat deployment_patch_travels.json)"
+  oc new-app quay.io/uegozi/kogito-travel-agency-travels-jvm-jdbc:"${KOGITO_VERSION}.Final" --name kogito-travel-agency-travels-jvm
+  oc patch deployment kogito-travel-agency-travels-jvm --patch "$(cat deployment-patch-travels-$(getDb)-jdbc.yaml)"
   oc patch service kogito-travel-agency-travels-jvm --patch "$(cat service_patch_travels.json)"
   oc expose service/kogito-travel-agency-travels-jvm
 
-  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm:"${KOGITO_VERSION}.Final"
-  oc patch deployment kogito-travel-agency-visas-jvm --patch "$(cat deployment_patch_visas.json)"
+  oc new-app quay.io/uegozi/kogito-travel-agency-visas-jvm-jdbc:"${KOGITO_VERSION}.Final" --name kogito-travel-agency-visas-jvm
+  oc patch deployment kogito-travel-agency-visas-jvm --patch "$(cat deployment-patch-visas-$(getDb)-jdbc.yaml)"
   oc patch service kogito-travel-agency-visas-jvm --patch "$(cat service_patch_visas.json)"
   oc expose service/kogito-travel-agency-visas-jvm
 

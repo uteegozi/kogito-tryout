@@ -1,0 +1,33 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: kogito-jobs-service-postgresql
+          env:
+            - name: ENABLE_EVENTS
+              value: 'true'
+            - name: KOGITO_JOBS_PROPS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.jobsservice.props
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.jdbc.url
+            - name: QUARKUS_DATASOURCE_REACTIVE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.reactive.url
+            - name: QUARKUS_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.username
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.password

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source installer.properties
+source common-functions.sh
 
 action=uninstall
 
@@ -17,8 +18,10 @@ function componentAction(){
 }
 
 if [ "${INSTALL_ALL}" == "Y" ]; then
-  INFINISPAN=Y
+  POSTGRESQL=Y
+  INFINISPAN=N
   KAFKA=Y
+  KEYCLOAK=Y
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
   KOGITO_TASK_CONSOLE=Y
@@ -29,17 +32,15 @@ cd testapp
     ./testapp.sh "${action}"
 cd ..
 
-dbType=""
-if [ "${INFINISPAN}" == "Y" ]; then
-  dbType="infinispan"
-fi
-componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "${dbType}"
+componentAction "${KOGITO_DATA_INDEX}" "kogito-data-index" "$(getDb)"
 componentAction "${KOGITO_MANAGEMENT_CONSOLE}" "kogito-management-console"
 componentAction "${KOGITO_TASK_CONSOLE}" "kogito-task-console"
-componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "${dbType}"
+componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "$(getDb)"
 
+componentAction "${POSTGRESQL}" "postgresql"
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
+componentAction "${KEYCLOAK}" "keycloak"
 
 componentAction "Y" "kogito-shared"
 

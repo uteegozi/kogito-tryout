@@ -1,0 +1,42 @@
+spec:
+  template:
+    spec:
+      volumes:
+        - name: app-pvc
+          configMap:
+            name: data-index-config
+      containers:
+        - name: kogito-data-index-postgresql
+          volumeMounts:
+            - name: app-pvc
+              mountPath: /home/kogito/data/protobufs
+          env:
+            - name: KAFKA_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kafka.bootstrap.servers
+            - name: KOGITO_DATA_INDEX_PROPS
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.dataindex.postgresql.props
+            - name: QUARKUS_DATASOURCE_DB-KIND
+              value: postgresql
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.jdbc.url
+            - name: QUARKUS_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.username
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.password
+            - name: QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION
+              value: update
