@@ -1,0 +1,28 @@
+spec:
+  template:
+    spec:
+      volumes:
+        - name: postgres-pvc
+          persistentVolumeClaim:
+            claimName: postgresdb
+      containers:
+        - name: postgresql-13
+          volumeMounts:
+            - name: postgres-pvc
+              mountPath: /var/lib/pgsql/data
+          env:
+            - name: POSTGRESQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.db
+            - name: POSTGRESQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.username
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: postgres.service.password

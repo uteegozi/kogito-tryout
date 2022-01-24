@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#source installer.properties
+
 function waitForPod(){
   podNameStart=$1
 
@@ -29,4 +31,14 @@ function getClusterAppsHostname(){
     # replace api with apps
     current_context_clusterhost_apps="apps.${current_context_clusterurl_api#*.}"
     echo "${current_context_clusterhost_apps}"
+}
+
+function getDb(){
+  dbType=""
+  if [ "${POSTGRESQL}" == "Y" ]; then
+    dbType="postgresql"
+  elif [ "${INFINISPAN}" == "Y" ]; then
+    dbType="infinispan"
+  fi
+  echo "${dbType}"
 }
