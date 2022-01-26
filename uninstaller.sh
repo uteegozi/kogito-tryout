@@ -19,15 +19,15 @@ function componentAction(){
 if [ "${INSTALL_ALL}" == "Y" ]; then
   INFINISPAN=Y
   KAFKA=Y
+  KEYCLOAK=Y
   KOGITO_DATA_INDEX=Y
   KOGITO_MANAGEMENT_CONSOLE=Y
   KOGITO_TASK_CONSOLE=Y
   KOGITO_JOBS_SERVICE=Y
+  TEST_APP=Y
 fi
 
-cd testapp
-    ./testapp.sh "${action}"
-cd ..
+componentAction "${TEST_APP}" "testapp"
 
 dbType=""
 if [ "${INFINISPAN}" == "Y" ]; then
@@ -40,6 +40,7 @@ componentAction "${KOGITO_JOBS_SERVICE}" "kogito-jobs-service" "${dbType}"
 
 componentAction "${INFINISPAN}" "infinispan"
 componentAction "${KAFKA}" "kafka"
+componentAction "${KEYCLOAK}" "keycloak"
 
 componentAction "Y" "kogito-shared"
 

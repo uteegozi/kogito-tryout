@@ -20,9 +20,9 @@ elif [ "${action}" == "install" ]; then
   waitForPod kogito-management-console
   patchVersion=""
   if [ "${KOGITO_MANAGEMENT_CONSOLE_VERSION}" == "1.8.0" ]; then
-    patchVersion="1.8.0"
+    patchVersion="-1.8.0"
   fi
-  oc patch deployment kogito-management-console --patch "$(cat deployment-patch-${patchVersion}.yaml)"
+  oc patch deployment kogito-management-console --patch "$(cat deployment-patch${patchVersion}.yaml)"
   waitForPod kogito-management-console
   oc expose service/kogito-management-console
 
