@@ -13,30 +13,44 @@ This deployment includes both the required infrastructure and the Kogito applica
 - helm 3 cli installed
 
 ### Installable Infrastructure
-- Infinispan via helm chart
-- Kafka via helm chart
-- jboss/keycloak image (in progress)
-
+- Persistence:
+  - infinispan/server:13.0.2.Final via helm chart
+- Messaging:
+  - bitnami/kafka:2.8.1-debian-10-r31 via helm chart
+- Authorization/Authentication:
+  - jboss/keycloak:15.0.2 image preconfigured using realm import - ephemeral installation
+  
 ### Installable Kogito services
 - Installed version: 1.16.0  
-**Note**: because of Developer Sandbox resource limits the mandatory keycloak authentication for the Management Console in version 1.14.0 cannot be installed here 
-=> must use Management Console version 1.8.0 for Developer Sandbox installation (set installer property: KOGITO_MANAGEMENT_CONSOLE_VERSION)
-The same applies for the Task Console service.  
-If installing on an OCP lab without these limitations, also choose keycloak as installable component and set KOGITO_MANAGEMENT_CONSOLE_VERSION to KOGTIO_VERSION
-- [Data Index](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-data-index-service_kogito-configuring) from image
-- [Management console](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-management-console_kogito-developing-process-services) from image 
-- [Jobs service](https://docs.jboss.org/kogito/release/latest/html_single/#con-jobs-service_kogito-configuring) from image
-- [Task console](https://docs.jboss.org/kogito/release/latest/html_single/#con-task-console_kogito-developing-process-services) from image
+- Installation from pre-build images
+- [Data Index](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-data-index-service_kogito-configuring)
+- [Management console](https://docs.jboss.org/kogito/release/1.15.0/html_single/#con-management-console_kogito-developing-process-services) 
+- [Jobs service](https://docs.jboss.org/kogito/release/latest/html_single/#con-jobs-service_kogito-configuring)
+- [Task console](https://docs.jboss.org/kogito/release/latest/html_single/#con-task-console_kogito-developing-process-services)
 
 ## Constraints
 - Developer Sandbox does not allow to install additional operators - (https://www.youtube.com/watch?v=oDqw8aBGDD8 from 18.02.2021 - time: 9:09)
   => cannot use Kogito Operator install
-- Developer Sandbox imposes resource limits on the user created cluster: 
-  - PVCs: 5
-  - Services: 10
-  - Storage: 15Gi
-  - RAM: 7Gi
-  - Namespaces: 2
+- Developer Sandbox sets [resource quotas](https://github.com/codeready-toolchain/host-operator/blob/master/deploy/templates/nstemplatetiers/base/cluster.yaml) per user name
+
+### Memory and cpu requests and limits
+if marked `-` then namespace defaults are applied
+
+|deployment|request cpu|request mem|limit cpu|limit mem|
+|---|---|---|---|---|
+|**namespace default per deployment/statefulSet**|10m|64Mi|1|750Mi|
+|keycloak|-|-|-|-|
+|kogito-data-index-infinispan|-|-|-|500Mi|
+|kogito-management-console|-|-|-|500Mi|
+|kogito-task-console|-|-|-|500Mi|
+|kogito-jobs-service|-|-|-|500Mi|
+|kogito-travel-agency-travels-jvm|-|-|-|500Mi|
+|kogito-travel-agency-visas-jvm|-|-|-|500Mi|
+|infinispan|500m|512Mi|500m|512Mi|
+|kafka|-|-|-|-|
+|kafka-zookeeper|250m|256Mi|-|-|
+|**sum**|-|-|-|6512Mi|
+|**sandbox max. aggregate values per user name (both namespaces)**|1750m|7Gi|20000m|7Gi|
 
 ## Architecture 
 ![](./separate.png)

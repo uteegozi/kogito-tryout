@@ -1,26 +1,29 @@
 spec:
   template:
     spec:
-      volumes:
-        - name: app-pvc
-          configMap:
-            name: data-index-config
       containers:
-        - name: kogito-data-index-infinispan
-          volumeMounts:
-            - name: app-pvc
-              mountPath: /home/kogito/data/protobufs
+        - name: kogito-travel-agency-visas-jvm
           env:
+            - name: KOGITO_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-app-configs
+                  key: kogito.service.url.visas
             - name: KAFKA_BOOTSTRAP_SERVERS
               valueFrom:
                 configMapKeyRef:
                   name: kogito-configs
                   key: kafka.bootstrap.servers
-            - name: KOGITO_DATA_INDEX_PROPS
+            - name: KOGITO_DATAINDEX_HTTP_URL
               valueFrom:
                 configMapKeyRef:
                   name: kogito-configs
-                  key: kogito.dataindex.props
+                  key: kogito.dataindex.httpurl
+            - name: KOGITO_DATAINDEX_WS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: kogito-configs
+                  key: kogito.dataindex.wsurl
             - name: QUARKUS_INFINISPAN_CLIENT_SERVER_LIST
               valueFrom:
                 configMapKeyRef:
@@ -38,6 +41,9 @@ spec:
                 secretKeyRef:
                   name: infinispan-generated-secret
                   key: password
+          ports:
+            - containerPort: 8090
+              protocol: TCP
           resources:
             limits:
               cpu: '1'
