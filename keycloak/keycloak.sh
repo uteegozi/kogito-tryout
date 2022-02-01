@@ -4,7 +4,6 @@ source ../installer.properties
 source ../common-functions.sh
 
 action=$1
-type=$2
 
 if [ "${action}" == "uninstall" ]; then
   echo "*** uninstalling keycloak"
@@ -15,7 +14,7 @@ elif [ "${action}" == "install" ]; then
   oc create configmap keycloak-config --from-file=./kogito-realm.json -o yaml --dry-run=client | \
     oc label -f- --dry-run=client -o yaml --local=true app=keycloak | \
     oc apply -f-
-  oc new-app jboss/keycloak
+  oc new-app jboss/keycloak:15.0.2
   waitForPod keycloak
   oc patch deployment keycloak --patch "$(cat deployment-patch.yaml)"
   waitForPod keycloak

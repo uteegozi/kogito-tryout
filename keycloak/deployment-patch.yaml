@@ -9,7 +9,7 @@ spec:
         - name: keycloak
           volumeMounts:
             - name: app-map
-              mountPath: /tmp/kogito-realm.json
+              mountPath: /tmp
           env:
             - name: KEYCLOAK_USER
               valueFrom:
@@ -21,7 +21,7 @@ spec:
                 configMapKeyRef:
                   name: kogito-configs
                   key: keycloak.admin.password
-            - name: KEYCLOAK_IMPORT_NOTDONE
+            - name: KEYCLOAK_IMPORT
               valueFrom:
                 configMapKeyRef:
                   name: kogito-configs
