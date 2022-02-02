@@ -5,6 +5,15 @@ source ../common-functions.sh
 
 action=$1
 
+# NOTE: if need to update kogito_realm.json, replace kogito-realm-orig.json here
+function updateClientRedirectUrls(){
+  mngConsole=\"http://kogito-management-console-$(getProjectName).$(getClusterAppsHostname)\"
+  taskConsole=\"http://kogito-task-console-$(getProjectName).$(getClusterAppsHostname)\"
+  additionalRedirectUris=["${mngConsole}","${taskConsole}"]
+  (jq '(.clients[] | select(.clientId=="kogito-console-quarkus") | .redirectUris) |= . + '${additionalRedirectUris} kogito-realm-orig.json) > kogito-realm.json
+}
+updateClientRedirectUrls
+
 if [ "${action}" == "uninstall" ]; then
   echo "*** uninstalling keycloak"
   oc delete all,configmap --selector app=keycloak
